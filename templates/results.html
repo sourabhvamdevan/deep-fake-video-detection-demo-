@@ -1,0 +1,49 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detection Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Deepfake Detection Results</h1>
+
+        {% if error_processing %}
+        <div class="alert alert-danger" role="alert">
+            Error: There was an error processing the video. Please try again.
+        </div>
+        {% else %}
+
+        {% if label == "Real" %}
+        <div class="alert alert-success" role="alert">
+            The video is classified as <strong>REAL</strong> with a probability of being fake: <strong>{{ probability|format_probability }}</strong>.
+        </div>
+        {% elif label == "Fake" %}
+        <div class="alert alert-danger" role="alert">
+            The video is classified as <strong>FAKE</strong> with a probability of being fake: <strong>{{ probability|format_probability }}</strong>.
+        </div>
+        {% else %}
+             <p>Error in classification.</p>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="btn btn-primary">Detect Another Video</a>
+
+        <!-- Optional: Display the video -->
+        {#% if video_data %}
+        <h2>Uploaded Video</h2>
+        <video width="400" controls>
+            <source src="data:video/mp4;base64,{{ video_data }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% endif %#}
+
+        {% endif %}
+
+    </div>
+</body>
+</html>
